@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -326,39 +326,106 @@
                         </p>
                     </div>
                 </div>
-                <div class="grid gap-8 md:grid-cols-[1fr_360px] md:px-12 gs-reveal-up">
-                    <div class="grid gap-6 md:grid-cols-3">
-                        <div class="border-t border-brand-charcoal/30 pt-5">
-                            <h4 class="font-display text-2xl font-medium tracking-tight">Raw<br>Nature</h4>
-                            <p class="mt-4 text-sm leading-relaxed text-brand-stone break-keep">자연에서 시작된 빛과 자유를 sunfreeclub만의 설계 태도로 정리합니다.</p>
+
+                <!-- Cyclical Diagram -->
+                <div class="relative w-full max-w-[1024px] mx-auto hidden md:block gs-reveal-up text-brand-charcoal mt-6" style="aspect-ratio: 12/7;">
+                    <div class="absolute inset-0 w-full h-full origin-center" style="transform: translateX(4%) rotate(-12deg);">
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet">
+                            <defs>
+                                <marker id="curve-arrow" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+                                    <path d="M 2 2 L 10 6 L 2 10" fill="none" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                </marker>
+                            </defs>
+                            <path d="M 232 152 A 520 280 0 0 1 465 79" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                            <path d="M 680 65 A 520 280 0 0 1 970 160" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                            <path d="M 1120 350 A 520 280 0 0 1 1095 437" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                            <path d="M 933 564 A 520 280 0 0 1 645 628" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                            <path d="M 380 603 A 520 280 0 0 1 201 529" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                            <path d="M 88 398 A 520 280 0 0 1 98 277" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                        </svg>
+
+                        <!-- Center Text -->
+                        <div class="absolute" style="left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-center text-[#D94B1F] w-max">
+                                <h3 class="font-display font-medium text-[28px] md:text-[32px] leading-tight tracking-tight">
+                                    To Bring You<br>Free Light
+                                </h3>
+                            </div>
                         </div>
-                        <div class="border-t border-brand-charcoal/30 pt-5">
-                            <h4 class="font-display text-2xl font-medium tracking-tight">Shelter</h4>
-                            <p class="mt-4 text-sm leading-relaxed text-brand-stone break-keep">도시 안에서 완성한 테크니컬 쉘터로 몸을 보호합니다.</p>
+
+                        <!-- 1. Top Center -->
+                        <div class="absolute w-max" style="left: 50%; top: 10%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-center px-4 bg-brand-offwhite">
+                                <h4 class="font-display text-[22px] md:text-[26px] font-medium tracking-tight">Raw<br>Nature</h4>
+                            </div>
                         </div>
-                        <div class="border-t border-brand-charcoal/30 pt-5">
-                            <h4 class="font-display text-2xl font-medium tracking-tight">Utility</h4>
-                            <p class="mt-4 text-sm leading-relaxed text-brand-stone break-keep">움직임에 반응하는 디테일과 매일을 위한 기능의 언어를 제안합니다.</p>
+
+                        <!-- 2. Top Right -->
+                        <div class="absolute w-[140px] md:w-[150px]" style="left: 92.5%; top: 37.5%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-left bg-brand-offwhite px-2">
+                                <h5 class="font-display font-bold text-[14.5px] md:text-[15.5px] mb-2 leading-snug text-brand-charcoal">도시 안에서 완성한<br>테크니컬 쉘터</h5>
+                                <p class="font-sans text-[10px] md:text-[10.5px] text-brand-stone leading-relaxed tracking-tight">과한 장식 대신 성능과<br>실루엣으로 완성한 보호막</p>
+                            </div>
+                        </div>
+
+                        <!-- 3. Right -->
+                        <div class="absolute w-max" style="left: 85.41%; top: 72.85%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-center bg-brand-offwhite px-4">
+                                <h4 class="font-display text-[22px] md:text-[26px] font-medium tracking-tight">Shelter</h4>
+                            </div>
+                        </div>
+
+                        <!-- 4. Bottom Center -->
+                        <div class="absolute w-[140px] md:w-[150px]" style="left: 42.5%; top: 89.28%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-left bg-brand-offwhite px-2 mx-auto">
+                                <h5 class="font-display font-bold text-[14.5px] md:text-[15.5px] mb-2 leading-snug text-brand-charcoal">몸짓만 남긴<br>미니멀 유틸리티</h5>
+                                <p class="font-sans text-[10px] md:text-[10.5px] text-brand-stone leading-relaxed tracking-tight">움직임에 반응하는 디테일,<br>매일을 위한 기능의 언어</p>
+                            </div>
+                        </div>
+
+                        <!-- 5. Bottom Left -->
+                        <div class="absolute w-max" style="left: 10.66%; top: 66.85%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-center bg-brand-offwhite px-4">
+                                <h4 class="font-display text-[22px] md:text-[26px] font-medium tracking-tight">Utility</h4>
+                            </div>
+                        </div>
+
+                        <!-- 6. Mid Left -->
+                        <div class="absolute w-[140px] md:w-[150px]" style="left: 12.41%; top: 30%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-left bg-brand-offwhite px-2 ml-auto">
+                                <h5 class="font-display font-bold text-[14.5px] md:text-[15.5px] mb-2 leading-snug text-brand-charcoal">자연에서 시작된<br>빛과 자유</h5>
+                                <p class="font-sans text-[10px] md:text-[10.5px] text-brand-stone leading-relaxed tracking-tight">거친 조건을 받아들이는<br>sunfreeclub만의 설계 태도</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="relative min-h-[210px] overflow-hidden border-t border-brand-charcoal/30 pt-5">
-                        <svg class="h-full min-h-[210px] w-full" viewBox="0 0 360 220" role="img" aria-label="SUNFREECLUB oval brand diagram">
-                            <defs>
-                                <linearGradient id="overviewOvalFill" x1="42" y1="28" x2="318" y2="192" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#F5E9B8" />
-                                    <stop offset="0.55" stop-color="#EFCB65" />
-                                    <stop offset="1" stop-color="#D94B1F" />
-                                </linearGradient>
-                            </defs>
-                            <ellipse cx="180" cy="110" rx="138" ry="72" fill="url(#overviewOvalFill)" opacity="0.28" />
-                            <ellipse cx="180" cy="110" rx="138" ry="72" fill="none" stroke="#D94B1F" stroke-width="1.4" />
-                            <ellipse cx="180" cy="110" rx="96" ry="44" fill="none" stroke="#1A1A1A" stroke-width="0.8" stroke-dasharray="5 7" opacity="0.38" />
-                            <path d="M54 116C98 58 167 48 211 77C245 99 267 137 315 104" fill="none" stroke="#1A1A1A" stroke-width="1" opacity="0.35" />
-                            <path d="M72 139C112 94 168 92 204 118C238 143 274 144 306 123" fill="none" stroke="#D94B1F" stroke-width="1.1" opacity="0.58" />
-                            <circle cx="180" cy="110" r="7" fill="#D94B1F" />
-                            <text x="42" y="38" class="font-display" fill="#1A1A1A" font-size="9" letter-spacing="5" opacity="0.55">SUN / BODY / FIELD</text>
-                            <text x="182" y="202" text-anchor="middle" class="font-display" fill="#1A1A1A" font-size="10" letter-spacing="6" opacity="0.62">FREE LIGHT SYSTEM</text>
-                        </svg>
+                </div>
+
+                <!-- Mobile Fallback -->
+                <div class="md:hidden flex flex-col gap-10 mt-16 relative">
+                    <div class="text-center py-6 text-[#D94B1F] border-y border-[#D94B1F]/30 mb-4">
+                        <h3 class="font-display font-medium text-2xl tracking-tight">To Bring You<br>Free Light</h3>
+                    </div>
+                    <div class="flex flex-col gap-8 text-center px-4">
+                        <div>
+                            <h4 class="font-display text-xl font-bold mb-2">Raw Nature</h4>
+                        </div>
+                        <div class="text-brand-charcoal/30 flex justify-center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M19 12l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                        <div>
+                            <h5 class="font-bold text-[15px] mb-2">도시 안에서 완성한 테크니컬 쉘터</h5>
+                            <p class="font-sans text-[11px] text-brand-stone break-keep px-4">과한 장식 대신 성능과 실루엣으로 완성한 보호막</p>
+                            <h4 class="font-display text-xl font-bold mt-4">Shelter</h4>
+                        </div>
+                        <div class="text-brand-charcoal/30 flex justify-center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M19 12l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                        <div>
+                            <h5 class="font-bold text-[15px] mb-2">몸짓만 남긴 미니멀 유틸리티</h5>
+                            <p class="font-sans text-[11px] text-brand-stone break-keep px-4">움직임에 반응하는 디테일, 매일을 위한 기능의 언어</p>
+                            <h4 class="font-display text-xl font-bold mt-4">Utility</h4>
+                        </div>
+                        <div class="text-brand-charcoal/30 flex justify-center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M19 12l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                        <div>
+                            <h5 class="font-bold text-[15px] mb-2">자연에서 시작된 빛과 자유</h5>
+                            <p class="font-sans text-[11px] text-brand-stone break-keep px-4">거친 조건을 받아들이는 sunfreeclub만의 설계 태도</p>
+                        </div>
                     </div>
                 </div>
             </div>
