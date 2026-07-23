@@ -943,7 +943,1028 @@
                 });
             }
 
+            gsap.registerPlugin(ScrollTrigger<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sunfree | A Gorpcore Archive</title>
+    
+    <!-- Google Fonts: Outfit (Main Title 1:1), Montserrat (Logo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Outfit:wght@900&display=swap" rel="stylesheet">
+    
+    <!-- Fonts (Pretendard via CDN) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            offwhite: '#F5F5F0',
+                            charcoal: '#1A1A1A',
+                            sunyellow: '#FFB800',
+                            moss: 'rgba(47, 111, 62, 0.95)',
+                            stone: '#8C8C8C',
+                        }
+                    },
+                    fontFamily: {
+                        monument: ['"Outfit"', 'sans-serif'], // 1페이지 메인 타이틀 전용
+                        logo: ['"Montserrat"', 'sans-serif'], // 네비게이션 브랜드 로고 전용
+                        paperlogy: ['"Paperlogy"', 'sans-serif'], // 선언문 특정 문구 전용
+                        display: ['"Helvetica Neue"', 'Helvetica', '"Pretendard Variable"', 'Pretendard', 'sans-serif'], // 일반 영문 헤드라인
+                        sans: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'], // 본문
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* 페이퍼로지(Paperlogy) 웹폰트 정의 */
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
+            font-weight: 800;
+        }
+        body { background-color: #F5F5F0; color: #1A1A1A; overflow-x: hidden; position: relative; }
+        .noise-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 50; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E'); }
+        #nav-logo { filter: none; opacity: 0.55; }
+        .bg-topo { background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 50 Q 25 25 50 50 T 100 50" fill="none" stroke="%231A1A1A" stroke-width="0.5" stroke-opacity="0.1"/%3E%3Cpath d="M0 70 Q 25 45 50 70 T 100 70" fill="none" stroke="%231A1A1A" stroke-width="0.5" stroke-opacity="0.1"/%3E%3C/svg%3E'); background-size: 100px 100px; }
+        .title-mask { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+        .btn-outline { position: relative; overflow: hidden; border: 1px solid #1A1A1A; transition: color 0.4s ease; }
+        .btn-outline::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background-color: #1A1A1A; transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1); z-index: -1; }
+        .btn-outline:hover { color: #F5F5F0; }
+        .btn-outline:hover::before { transform: translateX(100%); }
+        .img-reveal { position: relative; overflow: hidden; }
+        .img-reveal::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #F5F5F0; z-index: 10; transform-origin: right; transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1); }
+        .img-reveal.is-revealed::after { transform: scaleX(0); }
+        .horizontal-scroll-container { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+        #path .panel { position: absolute; inset: 0; width: 100vw; height: 100vh; opacity: 0; pointer-events: none; transform: translateX(3%); transition: opacity 0.55s ease, transform 0.55s ease; }
+        #path .panel.is-active { opacity: 1; pointer-events: auto; transform: translateX(0); }
+        .chapter-controls { position: absolute; right: 34px; top: 50%; z-index: 30; display: flex; flex-direction: column; gap: 10px; transform: translateY(-50%); }
+        .chapter-step { width: 42px; height: 42px; border: 1px solid rgba(245,245,240,0.46); color: rgba(245,245,240,0.72); font-family: "Helvetica Neue", Helvetica, "Pretendard Variable", Pretendard, sans-serif; font-size: 11px; letter-spacing: 0.12em; transition: all 0.25s ease; }
+        .chapter-step:hover,
+        .chapter-step.is-active { border-color: #FFB800; background: #FFB800; color: #1A1A1A; }
+        .archive-hero { background: #FFFFFF; color: #1A1A1A; }
+        .archive-time-line { width: 6rem; height: 1px; background: rgba(26,26,26,0.26); }
+        .archive-collage { position: relative; width: min(42vw, 520px); height: min(44vw, 520px); }
+        .archive-photo-frame { position: absolute; left: 22%; top: 26%; width: 56%; height: 54%; overflow: hidden; background: #D8D1BF; mix-blend-mode: multiply; }
+        .archive-current-time { position: absolute; right: 22%; top: -4%; z-index: 4; font-family: "Helvetica Neue", Helvetica, "Pretendard Variable", Pretendard, sans-serif; font-size: 9px; letter-spacing: 0.22em; color: #1A1A1A; text-align: right; }
+        .archive-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.12) sepia(0.16); opacity: 0; transform: translateY(100%); animation: archivePhotoRise 15s infinite cubic-bezier(0.76, 0, 0.24, 1); }
+        .archive-photo:nth-child(1) { animation-delay: 0s; }
+        .archive-photo:nth-child(2) { animation-delay: 3s; }
+        .archive-photo:nth-child(3) { animation-delay: 6s; }
+        .archive-photo:nth-child(4) { animation-delay: 9s; }
+        .archive-photo:nth-child(5) { animation-delay: 12s; }
+        @keyframes archivePhotoRise {
+            0% { opacity: 1; transform: translateY(100%); }
+            5% { opacity: 1; transform: translateY(0); }
+            20% { opacity: 1; transform: translateY(0); }
+            25% { opacity: 1; transform: translateY(-100%); }
+            25.01% { opacity: 0; transform: translateY(100%); }
+            100% { opacity: 0; transform: translateY(100%); }
+        }
+        .archive-sun-card { position: absolute; left: 12%; top: 0; width: 66%; height: 48%; background: #D94B1F; overflow: hidden; }
+        .archive-sun-card::before { content: ''; position: absolute; inset: 15%; border: 1px solid rgba(26,26,26,0.34); border-radius: 999px; }
+        .archive-sun-card::after { content: ''; position: absolute; left: 50%; top: 52%; width: 29%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 999px; background: radial-gradient(circle, #F6F4EC 0 34%, rgba(246,244,236,0.42) 35% 52%, transparent 53%); border: 1px solid rgba(26,26,26,0.24); }
+        .archive-strip { position: absolute; background: rgba(246,244,236,0.86); border: 1px solid rgba(26,26,26,0.08); box-shadow: 0 20px 60px rgba(26,26,26,0.06); }
+        .archive-strip.left { left: 0; top: 24%; width: 22%; height: 56%; }
+        .archive-strip.right { right: 3%; top: 24%; width: 19%; height: 58%; }
+        .archive-strip.bottom { left: 22%; top: 77%; width: 56%; height: 6%; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+        .archive-dot { width: 7px; height: 7px; border-radius: 999px; background: #1A1A1A; }
+        .archive-plus { position: absolute; width: 15px; height: 15px; }
+        .archive-plus::before, .archive-plus::after { content: ''; position: absolute; background: rgba(26,26,26,0.38); }
+        .archive-plus::before { left: 7px; top: 0; width: 1px; height: 15px; }
+        .archive-plus::after { left: 0; top: 7px; width: 15px; height: 1px; }
+        .manifesto-type {
+            font-size: clamp(3.1rem, 8.6vw, 8.8rem);
+            line-height: 0.86;
+            letter-spacing: -0.075em;
+        }
+        .manifesto-sun-wrap {
+            filter: none;
+        }
+        .manifesto-sun-center {
+            filter: none;
+        }
+        .manifesto-orbit-text {
+            position: absolute;
+            inset: -15%;
+            width: 130%;
+            height: 130%;
+            overflow: visible;
+            transform-origin: center;
+            pointer-events: none;
+            --manifesto-forest: rgba(47, 111, 62, 0.95);
+        }
+        .manifesto-orbit-text text {
+            font-family: "Helvetica Neue", Helvetica, "Pretendard Variable", Pretendard, sans-serif;
+            font-size: 6px;
+            font-weight: 500;
+            letter-spacing: 0.09em;
+            fill: rgba(0, 0, 0, 0.9);
+            dominant-baseline: middle;
+        }
+        .manifesto-arc-char {
+            font-family: "Helvetica Neue", Helvetica, "Pretendard Variable", Pretendard, sans-serif;
+            font-size: 6px;
+            font-weight: 500;
+            letter-spacing: 0.09em;
+            fill: rgba(0, 0, 0, 0.9);
+            dominant-baseline: middle;
+            text-anchor: middle;
+        }
+        .manifesto-green-arc {
+            fill: none;
+            color: var(--manifesto-forest);
+            stroke: currentColor;
+            stroke-width: 10;
+            stroke-linecap: butt;
+        }
+        .manifesto-tree-mark {
+            color: var(--manifesto-forest);
+            fill: currentColor;
+            opacity: 1;
+        }
+        .manifesto-light-field {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 46%, rgba(246, 244, 236, 0.72) 0 32%, transparent 68%);
+            pointer-events: none;
+        }
+        .manifesto-field-note {
+            position: absolute;
+            z-index: 12;
+            font-family: "Helvetica Neue", Helvetica, "Pretendard Variable", Pretendard, sans-serif;
+            font-size: 8px;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            line-height: 1.8;
+            color: rgba(26, 26, 26, 0.58);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .manifesto-field-note.left {
+            left: 8%;
+            bottom: 18%;
+        }
+        .manifesto-field-note.right {
+            right: 8%;
+            top: 14%;
+            text-align: right;
+        }
+.orbit-period { baseline-shift: -0.14em; }
+@keyframes manifestoOrbit {
+            to { transform: rotate(360deg); }
+        }
+        .manifesto-rule {
+            height: 1px;
+            background: rgba(26,26,26,0.22);
+        }
+        .manifesto-video-word {
+            position: absolute;
+            inset: auto;
+            font-family: "Helvetica Neue", Helvetica, "Pretendard Variable", Pretendard, sans-serif;
+            font-size: clamp(3.4rem, 10vw, 9rem);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -0.07em;
+            color: rgba(26,26,26,0.045);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        .manifesto-sun-word {
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: translate(-4%, -26%);
+            font-family: "Helvetica Neue", Helvetica, "Pretendard Variable", Pretendard, sans-serif;
+            font-size: clamp(3.24rem, 7.8vw, 6.6rem);
+            font-weight: 900;
+            line-height: 0.78;
+            letter-spacing: -0.08em;
+            color: rgba(26, 26, 26, 0.055);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .manifesto-char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(0.9em);
+            filter: blur(8px);
+        }
+        .manifesto-emphasis {
+            color: #C77C16;
+            font-style: italic;
+            letter-spacing: -0.06em;
+        }
+        .manifesto-definition {
+            backdrop-filter: blur(2px);
+        }
+        @media (max-width: 768px) {
+            #main-nav {
+                padding: 18px 16px;
+                align-items: flex-start;
+            }
+            #main-nav .font-logo {
+                font-size: 14px;
+            }
+            #nav-logo {
+                height: 13px;
+            }
+            #main-nav button.md\:hidden {
+                display: none;
+            }
+            #top {
+                height: 100svh;
+                min-height: 720px;
+            }
+            #top img {
+                object-position: 52% center;
+            }
+            .archive-hero {
+                height: 92vh;
+                min-height: 640px;
+            }
+            #light > .relative.z-10 {
+                height: 100%;
+                justify-content: flex-start;
+                padding-top: 92px;
+            }
+            .archive-line { top: 31%; }
+            .archive-collage { width: 84vw; height: 84vw; margin-top: 0; }
+            .archive-sun-card { left: 9%; width: 70%; height: 44%; }
+            .archive-photo-frame { left: 19%; top: 28%; width: 62%; height: 52%; }
+            .archive-strip.left { left: 0; top: 28%; width: 22%; height: 50%; }
+            .archive-strip.right { right: 0; top: 28%; width: 21%; height: 50%; }
+            .archive-strip.bottom { left: 19%; top: 78%; width: 62%; height: 6%; }
+            .archive-current-time { right: 19%; top: -2%; font-size: 8px; letter-spacing: 0.16em; }
+            .hero-title-line {
+                font-size: 13.5vw;
+                line-height: 0.86;
+                letter-spacing: -0.055em;
+            }
+            #overview {
+                padding-top: 56px;
+                padding-bottom: 64px;
+            }
+            #overview h2 {
+                font-size: 30px;
+                line-height: 1.08;
+            }
+            #overview p {
+                font-size: 14px;
+                line-height: 1.85;
+            }
+            #overview .md\:hidden {
+                margin-top: 40px;
+                gap: 28px;
+            }
+            #manifesto {
+                padding-top: 56px;
+                padding-bottom: 64px;
+            }
+            #manifesto .relative.min-h-\[610px\] {
+                min-height: 560px;
+            }
+            .manifesto-field-note {
+                font-size: 7px;
+                letter-spacing: 0.16em;
+            }
+            .manifesto-field-note.left {
+                left: 0;
+                top: 30px;
+            }
+            .manifesto-field-note.right {
+                right: 0;
+                bottom: 18px;
+            }
+            .manifesto-sun-center {
+                top: 47%;
+                height: 300px !important;
+                width: 300px !important;
+            }
+            #concept {
+                padding-top: 72px;
+                padding-bottom: 72px;
+            }
+            #concept h3 {
+                font-size: 34px;
+            }
+            #concept .grid {
+                gap: 40px;
+            }
+            footer h2 {
+                font-size: 15vw;
+                line-height: 0.92;
+            }
+            footer .relative.z-10.w-full {
+                align-items: flex-start;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-brand-sunyellow selection:text-brand-charcoal">
+
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 transition-colors duration-500 text-brand-charcoal/55">
+        <!-- 로고 20% 확대, 수직/수평 정렬(items-center), Montserrat 700 폰트(font-logo) 적용 -->
+        <div class="flex items-center gap-2">
+            <img decoding="async" id="nav-logo" src="data:image/png;base64,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" alt="SUNFREECLUB logo" class="h-[15px] w-auto object-contain opacity-55 transition-all duration-500" onerror="this.style.display='none'">
+            <span class="text-[15px] md:text-[17px] font-bold tracking-tighter uppercase font-logo leading-none mt-0.5">SUNFREECLUB</span>
+        </div>
+        <div class="hidden md:flex gap-7 text-[11px] uppercase tracking-widest font-display">
+            <a href="#light" class="hover:text-brand-sunyellow transition-colors">Light</a>
+            <a href="#overview" class="hover:text-brand-sunyellow transition-colors">Vision</a>
+            <a href="#path" class="hover:text-brand-sunyellow transition-colors">Chapter</a>
+            <a href="#concept" class="hover:text-brand-sunyellow transition-colors">Concept</a>
+        </div>
+        <button class="md:hidden text-sm uppercase font-display">Menu</button>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: Hero / Intro -->
+        <section id="light" class="archive-hero relative h-[106vh] w-full overflow-hidden border-b border-brand-stone/20">
+
+            <div class="absolute left-[26.7vw] top-[34%] hidden -translate-y-1/2 items-center md:flex">
+                <span id="sunrise-time" class="font-display text-[10px] font-normal tracking-[0.24em]">일출 : --:--</span>
+            </div>
+            <div class="absolute right-[27.6vw] top-[34%] hidden -translate-y-1/2 items-center md:flex">
+                <span id="sunset-time" class="font-display text-[10px] font-normal tracking-[0.24em]">일몰 : --:--</span>
+            </div>
+
+            <div class="relative z-10 flex h-screen flex-col items-center justify-center px-6 pt-12">
+                <div class="archive-collage hero-bg">
+                    <span id="current-korea-time" class="archive-current-time">0000.00.00 00:00</span>
+                    <div class="archive-sun-card">
+                        <div class="archive-plus" style="left: 16%; top: 18%;"></div>
+                        <div class="archive-plus" style="right: 14%; top: 18%;"></div>
+                        <div class="archive-plus" style="left: 22%; bottom: 18%;"></div>
+                        <div class="archive-plus" style="right: 18%; bottom: 18%;"></div>
+                        <span class="absolute left-4 top-4 font-display text-[9px] tracking-[0.24em]">10</span>
+                        <span class="absolute right-4 top-4 font-display text-[9px] tracking-[0.24em]">SUN</span>
+                    </div>
+                    <div class="archive-photo-frame">
+                        <img fetchpriority="high" decoding="async" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop" alt="Strong sunlight over an open mountain trail" class="archive-photo">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop" alt="Mountain ridge under sunlight" class="archive-photo">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200&auto=format&fit=crop" alt="Open trail in sunlit terrain" class="archive-photo">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?q=80&w=1200&auto=format&fit=crop" alt="Human movement across a mountain ridge" class="archive-photo">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=1200&auto=format&fit=crop" alt="Trail landscape and outdoor movement" class="archive-photo">
+                    </div>
+                    <div class="archive-strip left">
+                        <span class="absolute left-4 top-5 font-display text-[9px] tracking-[0.24em] [writing-mode:vertical-rl]">FREE LIGHT</span>
+                        <span class="archive-dot absolute left-1/2 top-[46%] -translate-x-1/2"></span>
+                        <span class="absolute bottom-9 left-1/2 h-px w-8 -translate-x-1/2 bg-brand-charcoal/40"></span>
+                    </div>
+                    <div class="archive-strip right">
+                        <span class="absolute right-3 top-5 font-display text-[9px] tracking-[0.24em] [writing-mode:vertical-rl]">WALK INDEX</span>
+                        <span class="archive-dot absolute left-1/2 top-[24%] -translate-x-1/2"></span>
+                        <span class="absolute bottom-8 left-1/2 grid h-12 w-12 -translate-x-1/2 grid-cols-4 grid-rows-4 border border-brand-charcoal/30 opacity-70"></span>
+                    </div>
+                    <div class="archive-strip bottom">
+                        <span class="bg-[#D94B1F]"></span>
+                        <span class="bg-[#D8D1BF]"></span>
+                        <span class="bg-brand-offwhite"></span>
+                    </div>
+                </div>
+
+                <div class="-mt-4 text-center md:-mt-8">
+                    <div class="relative inline-block">
+                        <h1 class="font-display text-[20.25vw] font-light uppercase leading-[0.78] tracking-[-0.06em] md:text-[11.4vw]">
+                            <span class="hero-title-line block">SUNFREECLUB</span>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!-- SECTION 5: Visual Identity (Portfolio Purpose) -->
+        <section id="concept" class="py-32 px-6 md:px-20 border-b border-brand-stone/20 bg-white">
+             <div class="max-w-6xl mx-auto">
+                 <div class="mb-16 gs-reveal">
+                     <div class="mb-4 flex items-start justify-between gap-8">
+                         <div>
+                             <h2 class="text-xs font-medium uppercase tracking-[0.2em] text-brand-stone mb-4 font-display">Project Overview</h2>
+                             <h3 class="font-display font-bold text-4xl tracking-tighter text-[#D94B1F]">Visual Concept</h3>
+                         </div>
+                         <svg class="h-[65px] w-[65px] shrink-0 md:h-[78px] md:w-[78px]" viewBox="0 0 100 100" aria-label="Visual Concept VC line symbol" role="img">
+                             <path d="M20 13L50 90L80 13" fill="none" stroke="#D94B1F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                             <path d="M13 13H28M72 13H87" fill="none" stroke="#D94B1F" stroke-width="2.2" stroke-linecap="round" />
+                             <path d="M71 33C64 25 50 23 40 30C26 40 26 62 40 72C50 79 64 77 71 69" fill="none" stroke="#D94B1F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                         </svg>
+                     </div>
+                     <p class="mt-4 max-w-2xl text-brand-charcoal/70 break-keep">
+                         sunfreeclub의 브랜드 기획과 디자인 방향을 보여주는 포트폴리오 섹션입니다.<br>
+                         태양, 산, 등고선, 유틸리티 웨어의 감각을 시각 언어로 정리했습니다.
+                     </p>
+                 </div>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                     <div class="space-y-4 gs-reveal-up">
+                         <h4 class="font-bold border-b border-brand-charcoal pb-2 font-display">Color Palette</h4>
+                         <div class="flex flex-col gap-2 font-display">
+                             <div class="flex items-center gap-4"><div class="w-12 h-12 bg-brand-offwhite border border-gray-200"></div><span class="text-xs">Off-white #F5F5F0</span></div>
+                             <div class="flex items-center gap-4"><div class="w-12 h-12 bg-brand-charcoal"></div><span class="text-xs">Deep Charcoal #1A1A1A</span></div>
+                             <div class="flex items-center gap-4"><div class="w-12 h-12 bg-[#D94B1F]"></div><span class="text-xs">Sun Vermilion #D94B1F</span></div>
+                             <div class="flex items-center gap-4"><div class="w-12 h-12 bg-brand-sunyellow"></div><span class="text-xs">Sun Yellow #FFB800</span></div>
+                            <div class="flex items-center gap-4"><div class="w-12 h-12 bg-brand-moss"></div><span class="text-xs">Forest Green #2F6F3E</span></div>
+                         </div>
+                     </div>
+                     <div class="space-y-4 gs-reveal-up md:delay-100">
+                         <h4 class="font-bold border-b border-brand-charcoal pb-2 font-display">Typography</h4>
+                         <div class="space-y-3">
+                             <p class="font-display text-4xl tracking-tighter">SUNFREECLUB</p>
+                             <p class="font-sans text-[11px] uppercase tracking-[0.18em] text-brand-stone/70">Type Note / Helvetica Neue</p>
+                             <p class="font-sans text-sm text-brand-stone leading-relaxed break-keep">영문 타이틀은 Helvetica Neue 계열의 산세리프를 사용해 미니멀하고 테크니컬한 인상을 만듭니다.</p>
+                         </div>
+                     </div>
+                     <div class="space-y-4 gs-reveal-up md:delay-200">
+                         <h4 class="font-bold border-b border-brand-charcoal pb-2 font-display">Graphic Motif</h4>
+                         <div class="aspect-video bg-topo flex items-center justify-center border border-brand-stone/30">
+                             <div class="w-16 h-16 rounded-full border border-brand-sunyellow flex items-center justify-center">
+                                 <div class="w-8 h-[1px] bg-brand-charcoal rotate-45"></div>
+                             </div>
+                         </div>
+                         <p class="text-xs text-brand-stone leading-relaxed">Sun, trail line, contour pattern, and utility grid are used as repeatable brand motifs.</p>
+                     </div>
+                 </div>
+             </div>
+        </section>
+        <!-- SECTION 2.5: Project Overview & Goal -->
+        <section id="overview" class="py-10 md:py-14 px-6 bg-white border-t border-brand-stone/20 overflow-hidden">
+            <div class="max-w-7xl mx-auto">
+                <div class="mb-8 gs-reveal md:px-12">
+                    <div class="mb-6 flex items-start justify-between gap-8">
+                        <div>
+                            <h2 class="text-xs font-medium uppercase tracking-[0.2em] text-brand-stone mb-4 font-display">Vision</h2>
+                            <h3 class="font-display font-bold text-4xl tracking-tighter text-[#D94B1F]">Brand Overview</h3>
+                        </div>
+                        <svg class="h-[65px] w-[65px] shrink-0 md:h-[78px] md:w-[78px]" viewBox="0 0 100 100" aria-hidden="true">
+                            <circle cx="50" cy="50" r="18" fill="none" stroke="#D94B1F" stroke-width="1.92" stroke-dasharray="10 6" />
+                            <path d="M50 7v18M50 75v18M7 50h18M75 50h18" stroke="#D94B1F" stroke-width="3.84" stroke-linecap="round" />
+                            <path d="M20.3 20.3l12.7 12.7M67 67l12.7 12.7M79.7 20.3 67 33M33 67 20.3 79.7" stroke="#D94B1F" stroke-width="2.16" stroke-linecap="round" opacity="0.9" />
+                            <path d="M38 50c3.5-7.2 8.8-10.8 16-10.8 4.4 0 8.2 1.2 11.4 3.6" fill="none" stroke="#D94B1F" stroke-width="1.44" stroke-linecap="round" opacity="0.68" />
+                            <circle cx="50" cy="50" r="4.2" fill="#D94B1F" opacity="0.92" />
+                        </svg>
+                    </div>
+                    <div class="border-t border-brand-charcoal/30 pt-6">
+                        <p class="text-[15px] md:text-[16px] text-brand-charcoal/78 leading-loose font-medium break-keep max-w-5xl">
+                            sunfreeclub은 삶의 나침반이 되어주는 태양과 함께할 수 있는 브랜드를 만듭니다.<br class="hidden md:block">
+                            도시와 자연의 경계에서 작동하는 절제된 형태와 기능적인 제품으로 '자유로운 빛을 입는다'는 감각을 제안합니다.<br class="hidden md:block">
+                            태양은 그 누구에게도 값을 제시하지 않습니다. 그저 나가기만 하면 되니까요.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Cyclical Diagram -->
+                <div class="relative w-full max-w-[1024px] mx-auto hidden md:block gs-reveal-up text-brand-charcoal mt-6" style="aspect-ratio: 12/7;">
+                    <div class="absolute inset-0 w-full h-full origin-center" style="transform: translateX(4%) rotate(-12deg);">
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet">
+                            <defs>
+                                <marker id="curve-arrow" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+                                    <path d="M 2 2 L 10 6 L 2 10" fill="none" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                </marker>
+                            </defs>
+                            <path d="M 232 152 A 520 280 0 0 1 465 79" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                            <path d="M 680 65 A 520 280 0 0 1 970 160" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                            <path d="M 1120 350 A 520 280 0 0 1 1095 437" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                            <path d="M 933 564 A 520 280 0 0 1 645 628" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                            <path d="M 380 603 A 520 280 0 0 1 201 529" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                            <path d="M 88 398 A 520 280 0 0 1 98 277" fill="none" stroke="#1A1A1A" stroke-width="1.5" marker-end="url(#curve-arrow)"/>
+                        </svg>
+
+                        <!-- Center Text -->
+                        <div class="absolute" style="left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-center text-[#D94B1F] w-max">
+                                <h3 class="font-display font-medium text-[28px] md:text-[32px] leading-tight tracking-tight">
+                                    To Bring You<br>Free Light
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- 1. Top Center -->
+                        <div class="absolute w-max" style="left: 50%; top: 10%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-center px-4">
+                                <h4 class="font-display text-[22px] md:text-[26px] font-medium tracking-tight">Raw<br>Nature</h4>
+                            </div>
+                        </div>
+
+                        <!-- 2. Top Right -->
+                        <div class="absolute w-[140px] md:w-[150px]" style="left: 92.5%; top: 37.5%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-left px-2">
+                                <h5 class="font-display font-bold text-[14.5px] md:text-[15.5px] mb-2 leading-snug text-brand-charcoal">도시 안에서 완성한<br>테크니컬 쉘터</h5>
+                                <p class="font-sans text-[10px] md:text-[10.5px] text-brand-stone leading-relaxed tracking-tight">과한 장식 대신 성능과<br>실루엣으로 완성한 보호막</p>
+                            </div>
+                        </div>
+
+                        <!-- 3. Right -->
+                        <div class="absolute w-max" style="left: 85.41%; top: 72.85%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-center px-4">
+                                <h4 class="font-display text-[22px] md:text-[26px] font-medium tracking-tight">Shelter</h4>
+                            </div>
+                        </div>
+
+                        <!-- 4. Bottom Center -->
+                        <div class="absolute w-[140px] md:w-[150px]" style="left: 42.5%; top: 89.28%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-left px-2 mx-auto">
+                                <h5 class="font-display font-bold text-[14.5px] md:text-[15.5px] mb-2 leading-snug text-brand-charcoal">몸짓만 남긴<br>미니멀 유틸리티</h5>
+                                <p class="font-sans text-[10px] md:text-[10.5px] text-brand-stone leading-relaxed tracking-tight">움직임에 반응하는 디테일,<br>매일을 위한 기능의 언어</p>
+                            </div>
+                        </div>
+
+                        <!-- 5. Bottom Left -->
+                        <div class="absolute w-max" style="left: 10.66%; top: 66.85%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-center px-4">
+                                <h4 class="font-display text-[22px] md:text-[26px] font-medium tracking-tight">Utility</h4>
+                            </div>
+                        </div>
+
+                        <!-- 6. Mid Left -->
+                        <div class="absolute w-[140px] md:w-[150px]" style="left: 12.41%; top: 30%; transform: translate(-50%, -50%) rotate(12deg);">
+                            <div class="text-left px-2 ml-auto">
+                                <h5 class="font-display font-bold text-[14.5px] md:text-[15.5px] mb-2 leading-snug text-brand-charcoal">자연에서 시작된<br>빛과 자유</h5>
+                                <p class="font-sans text-[10px] md:text-[10.5px] text-brand-stone leading-relaxed tracking-tight">거친 조건을 받아들이는<br>sunfreeclub만의 설계 태도</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Fallback -->
+                <div class="md:hidden flex flex-col gap-10 mt-16 relative">
+                    <div class="text-center py-6 text-[#D94B1F] border-y border-[#D94B1F]/30 mb-4">
+                        <h3 class="font-display font-medium text-2xl tracking-tight">To Bring You<br>Free Light</h3>
+                    </div>
+                    <div class="flex flex-col gap-8 text-center px-4">
+                        <div>
+                            <h4 class="font-display text-xl font-bold mb-2">Raw Nature</h4>
+                        </div>
+                        <div class="text-brand-charcoal/30 flex justify-center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M19 12l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                        <div>
+                            <h5 class="font-bold text-[15px] mb-2">도시 안에서 완성한 테크니컬 쉘터</h5>
+                            <p class="font-sans text-[11px] text-brand-stone break-keep px-4">과한 장식 대신 성능과 실루엣으로 완성한 보호막</p>
+                            <h4 class="font-display text-xl font-bold mt-4">Shelter</h4>
+                        </div>
+                        <div class="text-brand-charcoal/30 flex justify-center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M19 12l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                        <div>
+                            <h5 class="font-bold text-[15px] mb-2">몸짓만 남긴 미니멀 유틸리티</h5>
+                            <p class="font-sans text-[11px] text-brand-stone break-keep px-4">움직임에 반응하는 디테일, 매일을 위한 기능의 언어</p>
+                            <h4 class="font-display text-xl font-bold mt-4">Utility</h4>
+                        </div>
+                        <div class="text-brand-charcoal/30 flex justify-center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M19 12l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                        <div>
+                            <h5 class="font-bold text-[15px] mb-2">자연에서 시작된 빛과 자유</h5>
+                            <p class="font-sans text-[11px] text-brand-stone break-keep px-4">거친 조건을 받아들이는 sunfreeclub만의 설계 태도</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- SECTION 3: The Path of Sunfree (Button Chapters) -->
+        <section id="path" class="relative overflow-hidden bg-brand-charcoal text-brand-offwhite hidden md:block">
+            <div class="horizontal-scroll-container">
+                <div class="panel is-active flex items-center justify-center p-20 relative">
+                    <div class="absolute inset-0 opacity-20">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?q=80&w=1600&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="[빛이 내리는 숲]">
+                    </div>
+                    <div class="relative z-10 w-full max-w-4xl flex gap-12 items-center">
+                        <div class="w-1/2">
+                            <span class="text-brand-sunyellow font-medium text-sm tracking-widest font-display">챕터 1</span>
+                            <h2 class="font-display font-bold text-6xl mt-4 mb-6 tracking-tighter">Free Light</h2>
+                            <p class="text-[20px] leading-[1.425] text-brand-stone mb-8">인류와 태양이 함께한 시간 30만 년,<br>우리는 태양과 함께하도록 진화했다.</p>
+                        </div>
+                        <div class="w-1/2 aspect-[3/4]">
+                            <img loading="lazy" decoding="async" src="chapter-01.png" alt="[sunfreeclub chapter 01]" class="w-full h-full object-cover transition-all duration-700">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel flex items-center justify-center p-20 relative overflow-hidden bg-[#151515]">
+                    <div class="absolute inset-0 opacity-48">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1800&auto=format&fit=crop" class="h-full w-full object-cover grayscale contrast-125" alt="[어두운 빌딩 숲]">
+                    </div>
+                    <div class="absolute inset-0 bg-brand-charcoal/70"></div>
+                    <div class="relative z-10 w-full max-w-4xl flex gap-12 items-center flex-row-reverse">
+                        <div class="w-1/2 text-right">
+                            <span class="text-brand-sunyellow font-medium text-sm tracking-widest font-display">챕터 2</span>
+                            <h2 class="font-display font-bold text-6xl mt-4 mb-6 tracking-tighter">City &amp; Sun</h2>
+                            <p class="text-[20px] leading-[1.425] text-brand-stone mb-8">빌딩숲에 품어진 도심 속에서도,<br>언제나 태양은 그 자리에 있었다.</p>
+                        </div>
+                        <div class="w-1/2 aspect-square">
+                            <img loading="lazy" decoding="async" src="chapter-02.png" alt="[sunfreeclub chapter 02]" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel flex items-center justify-center p-20 relative">
+                    <div class="absolute inset-0 opacity-20">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1600&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="[깊은 숲과 자연의 경계]">
+                    </div>
+                    <div class="relative z-10 w-full max-w-4xl flex gap-12 items-center">
+                        <div class="w-1/2">
+                            <span class="text-brand-sunyellow font-medium text-sm tracking-widest font-display">챕터 3</span>
+                            <h2 class="font-display font-bold text-6xl mt-4 mb-6 tracking-tighter">Shared Ground</h2>
+                            <p class="text-[20px] leading-[1.425] text-brand-stone mb-8">인간과 자연이 공존하는 세상 속에서,<br>sunfreeclub은 더욱 빛난다.</p>
+                        </div>
+                        <div class="w-1/2 aspect-[3/4]">
+                            <img loading="lazy" decoding="async" src="chapter-03.png" alt="[sunfreeclub chapter 03]" class="w-full h-full object-cover transition-all duration-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chapter-controls" aria-label="Chapter navigation">
+                <button type="button" class="chapter-step is-active" data-chapter-target="0">01</button>
+                <button type="button" class="chapter-step" data-chapter-target="1">02</button>
+                <button type="button" class="chapter-step" data-chapter-target="2">03</button>
+            </div>
+        </section>
+        <section class="md:hidden bg-brand-charcoal text-brand-offwhite py-20 px-6 space-y-24">
+            <div class="gs-reveal-up">
+                <span class="text-brand-sunyellow font-medium text-xs tracking-widest font-display">챕터 1</span>
+                <h2 class="font-display font-bold text-4xl mt-2 mb-4 tracking-tighter">Free Light</h2>
+                <img loading="lazy" decoding="async" src="chapter-01.png" alt="[sunfreeclub chapter 01]" class="w-full aspect-[4/5] object-cover my-6">
+                <p class="text-brand-stone text-[18px] leading-[1.425] mb-6">인류와 태양이 함께한 시간 30만 년,<br>우리는 태양과 함께하도록 진화했다.</p>
+            </div>
+            <div class="gs-reveal-up">
+                <span class="text-brand-sunyellow font-medium text-xs tracking-widest font-display">챕터 2</span>
+                <h2 class="font-display font-bold text-4xl mt-2 mb-4 tracking-tighter">City &amp; Sun</h2>
+                <img loading="lazy" decoding="async" src="chapter-02.png" alt="[sunfreeclub chapter 02]" class="w-full aspect-square object-cover my-6">
+                <p class="text-brand-stone text-[18px] leading-[1.425] mb-6">빌딩숲에 품어진 도심 속에서도,<br>언제나 태양은 그 자리에 있었다.</p>
+            </div>
+        </section>
+        <!-- SECTION 2: Brand Manifesto -->
+        <section id="manifesto" class="relative overflow-hidden bg-white px-6 py-16 md:px-16 md:py-20">
+            <div class="absolute inset-0 bg-topo opacity-60"></div>
+            <div class="manifesto-light-field"></div>
+
+            <div class="relative z-10 mx-auto max-w-7xl">
+                <div class="mb-6 flex items-start justify-between gap-8 font-display text-[10px] uppercase tracking-[0.3em] text-brand-charcoal md:mb-8">
+                    <span>Manifesto 001</span>
+                    <span class="hidden md:block">Sun / City / Movement</span>
+                </div>
+
+                <div class="relative min-h-[610px] overflow-hidden md:min-h-[650px]">
+                    <span class="manifesto-field-note left">37.5665 N / 126.9780 E<br>UNPAID LIGHT OBSERVATION</span>
+                    <span class="manifesto-field-note right">SOLAR INDEX 001<br>ARCHIVE OF MOVEMENT</span>
+                    <div class="manifesto-sun-center absolute left-1/2 top-[45%] z-10 h-[330px] w-[330px] -translate-x-1/2 -translate-y-1/2 md:h-[460px] md:w-[460px]">
+                        <svg class="manifesto-orbit-text" viewBox="0 0 260 260" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="manifesto-brown-gradient" x1="21" y1="130" x2="239" y2="239" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#9A6A3B" />
+                                    <stop offset="46%" stop-color="#6F4726" />
+                                    <stop offset="100%" stop-color="#B8844D" />
+                                </linearGradient>
+                                <path id="manifesto-text-arc" d="M 21 130 A 109 109 0 0 1 239 130" />
+                                <clipPath id="manifesto-text-window">
+                                    <rect x="0" y="-40" width="260" height="163" />
+                                </clipPath>
+                            </defs>
+                            <g class="manifesto-tree-mark" aria-hidden="true">
+                                <g transform="translate(58 219) rotate(34)">
+                                    <rect x="-1.1" y="-5" width="2.2" height="9.5" rx="0.8" />
+                                    <path d="M -6 4 Q -9.2 4.8 -7.2 8.4 L -1.9 23.2 Q 0 30 1.9 23.2 L 7.2 8.4 Q 9.2 4.8 6 4 Z" />
+                                </g>
+                                <g transform="translate(202 219) rotate(-34)">
+                                    <rect x="-1.3" y="-6" width="2.6" height="11.5" rx="0.8" />
+                                    <path d="M -7.7 5 Q -11.4 5.8 -9.1 10 L -2.4 29 Q 0 36.2 2.4 29 L 9.1 10 Q 11.4 5.8 7.7 5 Z" />
+                                </g>
+                            </g>
+                            <g id="manifesto-arc-letter-stream" clip-path="url(#manifesto-text-window)" aria-hidden="true"></g>
+                            <path class="manifesto-green-arc" d="M 21 130 A 109 109 0 0 0 239 130" />
+                        </svg>
+
+                        <div class="manifesto-sun-wrap pointer-events-none absolute inset-0 flex items-center justify-center">
+                            <svg class="relative h-full w-full" viewBox="0 0 200 200" aria-hidden="true">
+                                <defs>
+                                    <filter id="manifesto-sun-glow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feDropShadow dx="0" dy="0" stdDeviation="0" flood-color="#FFB800" flood-opacity="0" />
+                                    </filter>
+                                </defs>
+                                <g filter="url(#manifesto-sun-glow)">
+                                    <g id="manifesto-ray"><line x1="100" y1="13" x2="100" y2="34" stroke="#FFB800" stroke-width="2.3" stroke-linecap="round" /></g>
+                                    <use href="#manifesto-ray" transform="rotate(15 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(30 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(45 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(60 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(75 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(90 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(105 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(120 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(135 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(150 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(165 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(180 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(195 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(210 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(225 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(240 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(255 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(270 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(285 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(300 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(315 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(330 100 100)" />
+                                    <use href="#manifesto-ray" transform="rotate(345 100 100)" />
+                                </g>
+                                <circle cx="100" cy="100" r="48" fill="none" stroke="#FFB800" stroke-width="1" stroke-dasharray="2 5" opacity="0.64" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: Image Archive Main -->
+        <section id="top" class="h-screen w-full overflow-hidden bg-white border-b border-brand-charcoal">
+            <img loading="eager" decoding="async" src="archive-main-clothes.png" alt="[sunfreeclub archive clothing field]" class="h-full w-full object-cover">
+        </section>
+
+        <!-- SECTION 11: Bottom Image Archive -->
+        <section class="bg-[#F6F3EA]">
+            <div class="mx-auto w-full">
+                <div class="grid grid-cols-1 gap-0 md:grid-cols-3">
+                    <img loading="lazy" decoding="async" src="collage-01.png" alt="[sunfreeclub archive 01]" class="aspect-[5/3] w-full object-cover">
+                    <img loading="lazy" decoding="async" src="collage-02.png" alt="[sunfreeclub archive 02]" class="aspect-[5/3] w-full object-cover">
+                    <img loading="lazy" decoding="async" src="collage-03.png" alt="[sunfreeclub archive 03]" class="aspect-[5/3] w-full object-cover">
+                    <img loading="lazy" decoding="async" src="collage-04.png" alt="[sunfreeclub archive 04]" class="aspect-[5/3] w-full object-cover">
+                    <img loading="lazy" decoding="async" src="collage-06.png" alt="[sunfreeclub archive 05]" class="aspect-[5/3] w-full object-cover">
+                    <img loading="lazy" decoding="async" src="collage-07.png" alt="[sunfreeclub archive 06]" class="aspect-[5/3] w-full object-cover">
+                </div>
+            </div>
+        </section>
+        <!-- SECTION 12: Closing / Participate -->
+        <footer class="relative h-screen bg-brand-charcoal text-brand-offwhite flex flex-col justify-between overflow-hidden">
+            <div class="absolute inset-0 w-full h-full z-0 opacity-40">
+                <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=2952&auto=format&fit=crop" alt="[산 정상]" class="w-full h-full object-cover mix-blend-luminosity">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-brand-charcoal"></div>
+            </div>
+
+            <div class="relative z-10 flex-grow flex flex-col items-center justify-center text-center px-6">
+        <h2 class="font-display font-bold text-[8vw] md:text-7xl leading-none mb-12 gs-reveal-up tracking-tighter">
+            Let '&nbsp;고&nbsp;썬프리
+        </h2>
+                
+                <div class="flex font-display">
+                    <a href="#top" class="px-8 py-4 bg-brand-sunyellow text-brand-charcoal rounded-full text-sm font-medium uppercase tracking-widest hover:bg-white transition-colors">FOLLOW THE SUN</a>
+                </div>
+            </div>
+
+            <div class="relative z-10 w-full p-6 md:p-12 flex flex-col md:flex-row justify-between items-end border-t border-white/10 text-[10px] uppercase tracking-widest text-brand-stone font-display">
+                <div class="mb-4 md:mb-0">
+                    <p>(C) 2026 SUNFREECLUB. All rights reserved.</p>
+                    <p class="mt-2">Designed by N.J Park</p>
+                </div>
+                <div class="flex gap-6">
+                    <span>Instagram</span>
+                    <span>Journal</span>
+                    <span>Contact</span>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Seoul sunrise/sunset display. Recalculates when the Korea date changes.
+            const sunriseEl = document.getElementById('sunrise-time');
+            const sunsetEl = document.getElementById('sunset-time');
+            const currentKoreaTimeEl = document.getElementById('current-korea-time');
+            let lastSunDateKey = '';
+
+            const getKoreaDate = () => new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+            const updateCurrentKoreaTime = () => {
+                if (!currentKoreaTimeEl) return;
+                const koreaDate = getKoreaDate();
+                const year = koreaDate.getFullYear();
+                const month = String(koreaDate.getMonth() + 1).padStart(2, '0');
+                const day = String(koreaDate.getDate()).padStart(2, '0');
+                const hours = String(koreaDate.getHours()).padStart(2, '0');
+                const minutes = String(koreaDate.getMinutes()).padStart(2, '0');
+                currentKoreaTimeEl.textContent = `${year}.${month}.${day} ${hours}:${minutes}`;
+            };
+            const dayOfYear = (date) => {
+                const start = new Date(date.getFullYear(), 0, 0);
+                return Math.floor((date - start) / 86400000);
+            };
+            const degToRad = (deg) => deg * Math.PI / 180;
+            const radToDeg = (rad) => rad * 180 / Math.PI;
+            const normalize = (value, max) => ((value % max) + max) % max;
+            const calculateSunTime = (date, isSunrise) => {
+                const latitude = 37.5665;
+                const longitude = 126.9780;
+                const zenith = 90.833;
+                const timezoneOffset = 9;
+                const lngHour = longitude / 15;
+                const t = dayOfYear(date) + ((isSunrise ? 6 : 18) - lngHour) / 24;
+                const meanAnomaly = (0.9856 * t) - 3.289;
+                const trueLongitude = normalize(
+                    meanAnomaly + (1.916 * Math.sin(degToRad(meanAnomaly))) + (0.020 * Math.sin(degToRad(2 * meanAnomaly))) + 282.634,
+                    360
+                );
+                let rightAscension = radToDeg(Math.atan(0.91764 * Math.tan(degToRad(trueLongitude))));
+                rightAscension = normalize(rightAscension, 360);
+                rightAscension += (Math.floor(trueLongitude / 90) * 90) - (Math.floor(rightAscension / 90) * 90);
+                rightAscension /= 15;
+                const sinDeclination = 0.39782 * Math.sin(degToRad(trueLongitude));
+                const cosDeclination = Math.cos(Math.asin(sinDeclination));
+                const cosHourAngle = (Math.cos(degToRad(zenith)) - (sinDeclination * Math.sin(degToRad(latitude)))) / (cosDeclination * Math.cos(degToRad(latitude)));
+                let hourAngle = isSunrise ? 360 - radToDeg(Math.acos(cosHourAngle)) : radToDeg(Math.acos(cosHourAngle));
+                hourAngle /= 15;
+                const localMeanTime = hourAngle + rightAscension - (0.06571 * t) - 6.622;
+                const localTime = normalize(localMeanTime - lngHour + timezoneOffset, 24);
+                const hours = Math.floor(localTime);
+                const minutes = Math.round((localTime - hours) * 60);
+                const adjustedHours = minutes === 60 ? normalize(hours + 1, 24) : hours;
+                const adjustedMinutes = minutes === 60 ? 0 : minutes;
+                return `${String(adjustedHours).padStart(2, '0')}:${String(adjustedMinutes).padStart(2, '0')}`;
+            };
+            const updateSunTimes = () => {
+                if (!sunriseEl || !sunsetEl) return;
+                const koreaDate = getKoreaDate();
+                const dateKey = koreaDate.toISOString().slice(0, 10);
+                if (dateKey === lastSunDateKey) return;
+                lastSunDateKey = dateKey;
+                sunriseEl.textContent = `일출 : ${calculateSunTime(koreaDate, true)}`;
+                sunsetEl.textContent = `일몰 : ${calculateSunTime(koreaDate, false)}`;
+            };
+            updateSunTimes();
+            updateCurrentKoreaTime();
+            setInterval(updateSunTimes, 60000);
+            setInterval(updateCurrentKoreaTime, 1000);
+
+            const setupManifestoArcText = () => {
+                const path = document.getElementById('manifesto-text-arc');
+                const stream = document.getElementById('manifesto-arc-letter-stream');
+                if (!path || !stream || typeof path.getTotalLength !== 'function') return;
+
+                const phrase = '태양은 무료다, 당신이 나가기만 한다면. 태양을 바라보기만 해도 몸은 다시 방향을 얻는다.';
+                const chars = Array.from(phrase);
+                const pathLength = path.getTotalLength();
+                const spacing = 5.9;
+                const cycleDistance = pathLength + chars.length * spacing;
+                const cycleDuration = 22600;
+                const startTime = performance.now();
+
+                stream.innerHTML = '';
+                const letters = chars.map((char) => {
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('class', 'manifesto-arc-char');
+                    text.textContent = char === ' ' ? '\u00A0' : char;
+                    stream.appendChild(text);
+                    return text;
+                });
+
+                const render = (now) => {
+                    const progress = ((now - startTime) % cycleDuration) / cycleDuration * cycleDistance;
+
+                    letters.forEach((letter, index) => {
+                        const distance = progress - (chars.length - 1 - index) * spacing;
+                        if (distance < 0 || distance > pathLength) {
+                            letter.setAttribute('opacity', '0');
+                            return;
+                        }
+
+                        const point = path.getPointAtLength(distance);
+                        const nextPoint = path.getPointAtLength(Math.min(distance + 0.8, pathLength));
+                        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180 / Math.PI;
+                        letter.setAttribute('opacity', '1');
+                        letter.setAttribute('x', point.x.toFixed(2));
+                        letter.setAttribute('y', point.y.toFixed(2));
+                        letter.setAttribute('transform', `rotate(${angle.toFixed(2)} ${point.x.toFixed(2)} ${point.y.toFixed(2)})`);
+                    });
+
+                    requestAnimationFrame(render);
+                };
+
+                requestAnimationFrame(render);
+            };
+
+            setupManifestoArcText();
+            
+            // Navigation Scroll Logic
+            const nav = document.getElementById('main-nav');
+            const navLogo = document.getElementById('nav-logo');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > window.innerHeight - 80) {
+                    nav.classList.remove('text-[#FAFAF8]');
+                    nav.classList.remove('text-brand-charcoal');
+                    nav.classList.add('text-brand-charcoal/55');
+                    navLogo.style.filter = 'none';
+                    navLogo.style.opacity = '0.55';
+                } else {
+                    nav.classList.remove('text-[#FAFAF8]');
+                    nav.classList.remove('text-brand-charcoal');
+                    nav.classList.add('text-brand-charcoal/55');
+                    navLogo.style.filter = 'none';
+                    navLogo.style.opacity = '0.55';
+                }
+            });
+
+            // Chapter button navigation runs before GSAP so it still works if external animation scripts load late.
+            const chapterPanels = Array.from(document.querySelectorAll('#path .panel'));
+            const chapterButtons = Array.from(document.querySelectorAll('.chapter-step'));
+            const setChapter = (index) => {
+                chapterPanels.forEach((panel, panelIndex) => {
+                    const isActive = panelIndex === index;
+                    panel.classList.toggle('is-active', isActive);
+                });
+                chapterButtons.forEach((button, buttonIndex) => {
+                    button.classList.toggle('is-active', buttonIndex === index);
+                });
+            };
+            if (chapterPanels.length && chapterButtons.length) {
+                setChapter(0);
+                chapterButtons.forEach((button) => {
+                    button.addEventListener('click', () => {
+                        setChapter(Number(button.dataset.chapterTarget || 0));
+                    });
+                });
+            }
+
             gsap.registerPlugin(ScrollTrigger);
+
+            // Manifesto typography: split Korean sentences into animated characters.
+            document.querySelectorAll('.manifesto-split').forEach((elem) => {
+                const text = elem.dataset.splitText || '';
+                elem.innerHTML = Array.from(text).map((char) => {
+                    if (char === ' ') return '<span class="manifesto-char">&nbsp;</span>';
+                    return `<span class="manifesto-char">${char}</span>`;
+                }).join('');
+                gsap.to(elem.querySelectorAll('.manifesto-char'), {
+                    opacity: 1,
+                    y: 0,
+                    filter: 'blur(0px)',
+                    duration: 0.8,
+                    stagger: 0.025,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: 'top 78%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+            });
+
+            gsap.to('.manifesto-video-word', {
+                yPercent: -18,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#manifesto',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            // Reveal Animation (Fade in up)
+            gsap.utils.toArray('.gs-reveal').forEach(elem => {
+                gsap.fromTo(elem, 
+                    { y: 30, opacity: 0 },
+                    {
+                        y: 0, opacity: 1, duration: 1, ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 85%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+
+            gsap.utils.toArray('.gs-reveal-up').forEach(elem => {
+                gsap.fromTo(elem, 
+                    { y: 50, opacity: 0 },
+                    {
+                        y: 0, opacity: 1, duration: 1, ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 80%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+
+            // Standard Image Reveal
+            gsap.utils.toArray('.img-reveal:not(.panel .img-reveal)').forEach(elem => {
+                ScrollTrigger.create({
+                    trigger: elem,
+                    start: "top 70%",
+                    onEnter: () => elem.classList.add('is-revealed')
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
 
             // Manifesto typography: split Korean sentences into animated characters.
             document.querySelectorAll('.manifesto-split').forEach((elem) => {
